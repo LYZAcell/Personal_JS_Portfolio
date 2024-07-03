@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css";
-import React, {Component} from "react"; // 클래스형 컴포넌트 호출 시
+import React, {Component, useState} from "react"; // 클래스형 컴포넌트 호출 시
 import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
 import styled, {css} from 'styled-components';
 import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
@@ -102,6 +102,12 @@ function practice() {
       fontSize: 24,
       padding: '2rem'
     }
+    //setter 함수 써보기
+    const [ count, setCount] = useState(0);
+    function handleClick(){
+      setCount((prev) => prev + 1);
+      console.log(count);
+    } 
   
     return (
     <div>
@@ -140,6 +146,10 @@ function practice() {
     <MainContainer>
       <MainText> styledcomponet를 모은 jsx를 활용해 CSS in JS를 편히 사용해보자!</MainText>
     </MainContainer>
+
+    {/*async setter함수 사용해보기*/}
+    <button onClick = {handleClick}>1씩 올라가는 버튼</button>
+    <div>버튼을 {count}번 눌렀어용!</div>
      </div>
         {/*굳이 div가 아니더라도 fragment라는 이름없는 태그 활용도 가능*/}
         <> {/*fragment태그*/}

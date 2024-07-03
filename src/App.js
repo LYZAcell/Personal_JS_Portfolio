@@ -1,8 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
 import styled, {css} from 'styled-components';
 import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
+import React, {useState} from "react";
+
 
 // 컴포넌트 만들기
 function MyFirstComponent(){
@@ -66,10 +67,16 @@ function App() {
     fontSize: 24,
     padding: '2rem'
   }
+  //setter 함수 써보기
+  const [ count, setCount] = useState(0);
+  function handleClick(){
+    setCount((prev) => prev + 1);
+    console.log(count);
+  } 
 
   return (
   <div>
-     {/*JSX코드 안에서 JS표현식을 {}안에 포함시켜 주석다는 방식*/}
+    {/*JSX코드 안에서 JS표현식을 {}안에 포함시켜 주석다는 방식*/}
     {/*둘 이상의 태그는 꼭 하나의 태그 안에 감싸져야함 -> 상 하단에 div가 하나 더씌워지는 이유*/}
     <div style = {style}> 멋사 최고야 짱짱</div>
     <br/>
@@ -103,6 +110,10 @@ function App() {
     <MainContainer>
       <MainText> styledcomponet를 모은 jsx를 활용해 CSS in JS를 편히 사용해보자!</MainText>
     </MainContainer>
+    {/*async setter함수 사용해보기*/}
+    <button onClick = {handleClick}>1씩 올라가는 버튼</button>
+    <div>버튼을 {count}번 눌렀어용!</div>
+
   </div>
   );
 }
