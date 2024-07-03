@@ -3,4 +3,4 @@
 ## 일별 복습 목록
 - 0701: ~3주차 JS문법 기초
 - 0702: 4주차 react 기초
-- 0703: styled-component 복습 완료.
+- 0703: styled-component 복습 완료. (study에styledcomponent모음인 practice_styles.jsx생성)
