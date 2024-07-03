@@ -1,6 +1,10 @@
 import React from 'react';
 import "./App.css";
 import React, {Component} from "react"; // 클래스형 컴포넌트 호출 시
+import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
+import styled, {css} from 'styled-components';
+import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
+
 
 {/*function NameBox(){
     const name = "test";
@@ -35,8 +39,58 @@ function FirstComponent(){
       </div>
     )
   }
-  
 
+  // 중첩컴포넌트: children으로 전달받기
+function MountComponent({children}){
+  return(
+    <div style = {{display : "flex", flexDirection : "column", backgroundColor: "orange"}}>
+      {children}
+    </div>
+  );
+}
+
+
+// styled component _ 변수명 무조건 대문자로 정의
+// styled.tagName 형식으로 원하는 태그 뒤에 백팁안에 css작성
+// 컴포넌트 형식. prop 주기 가능
+const SecondComponent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  background-color: ${(props) => props.color || "blue"};
+  ${props => 
+    props.small &&
+    `
+    width:  100px;
+    height: 50px;
+    `}
+
+      ${props => 
+    props.small &&
+    `
+    width:  100px;
+    height: 50px;
+    `}
+
+  ${props => props.size &&
+    css`
+    width: 100px;
+    height: 50px;
+    `}
+  div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  background-color: pink;
+  }
+  `;
+
+
+// practice , app.js처럼 여러 컴포넌트를 모으는 파일을 루트 컴포넌트 파일이라고 함. -> App.js가 디폴트라 필수임
 function practice() {
     // JS 단일행 주석
     /* Js 여러행 주석*/
@@ -62,6 +116,30 @@ function practice() {
         {/*css 적용 시에는 className으로 입력해야함.class = 이 아님 */}
         <div className = "gray-box"/>
         <FirstComponent/>
+        {/*univ로 props를 받아 함수 export-import*/}
+        <FirstComponent univ = "외대" />
+        <FirstComponent univ = "경희대"/>
+        <FirstComponent univ = "시립대"/>
+        <br/>
+        <MountComponent>
+          <h1 style = {{backgroundColor: "red"}}>부모 컴포넌트 호출시에는 children이라는 명목하에 아무거나 넣기 가능</h1>
+          <FirstComponent/>
+          <div className = "gray-box"></div>
+        </MountComponent>
+    <p style = {{fontWeight: "bold", fontSize: "24px"}}>부모 컴포넌트를 벗어나면 다시 돌아온다.</p>
+    <SecondComponent color = " yellow">styledcomponent를 써보았어요. 까먹지 맙시다~! </SecondComponent>
+    <SecondComponent small = {true} color = "lightgreen">멋사 짱짱</SecondComponent>
+    <SecondComponent>멋사가 짱이에요. styledcomponen prop값 없을 시 || 사용</SecondComponent>
+    <SecondComponent small = {true} color = "lightgreen">멋사 짱짱</SecondComponent>
+    <SecondComponent>멋사가 짱이에요. styledcomponen prop값 없을 시 || 사용</SecondComponent>
+    <SecondComponent>
+      <div>
+        props 사용자 연습중입니다. 
+      </div>
+    </SecondComponent>
+    <MainContainer>
+      <MainText> styledcomponet를 모은 jsx를 활용해 CSS in JS를 편히 사용해보자!</MainText>
+    </MainContainer>
      </div>
         {/*굳이 div가 아니더라도 fragment라는 이름없는 태그 활용도 가능*/}
         <> {/*fragment태그*/}
@@ -72,3 +150,6 @@ function practice() {
   }
   
   export default practice;
+
+  // CSS in JS -> JS안에서 CSS작성 가능
+  // = 클래스 중복방지, JS와 css사이 값공유 등 장점 => styled-component

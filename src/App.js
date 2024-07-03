@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
-
+import styled, {css} from 'styled-components';
+import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
 
 // 컴포넌트 만들기
 function MyFirstComponent(){
@@ -21,6 +22,38 @@ function MountComponent({children}){
     </div>
   );
 }
+
+// styled component _ 변수명 무조건 대문자로 정의
+// styled.tagName 형식으로 원하는 태그 뒤에 백팁안에 css작성
+// 컴포넌트 형식. prop 주기 가능
+const SecondComponent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  background-color: ${(props) => props.color || "blue"};
+  ${props => 
+    props.small &&
+    `
+    width:  100px;
+    height: 50px;
+    `}
+
+  ${props => props.size &&
+    css`
+    width: 100px;
+    height: 50px;
+    `}
+  div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  background-color: pink;
+  }
+  `;
 
 function App() {
   // JS 단일행 주석
@@ -58,6 +91,18 @@ function App() {
       <div className = "gray-box"></div>
     </MountComponent>
     <p style = {{fontWeight: "bold", fontSize: "24px"}}>부모 컴포넌트를 벗어나면 다시 돌아온다.</p>
+    <SecondComponent color = " yellow">styledcomponent를 써보았어요. 까먹지 맙시다~! </SecondComponent>
+    <SecondComponent small = {true} color = "lightgreen">멋사 짱짱</SecondComponent>
+    <SecondComponent>멋사가 짱이에요. styledcomponen prop값 없을 시 || 사용</SecondComponent>
+    <SecondComponent>
+      <div>
+        props 사용자 연습중입니다. 
+      </div>
+    </SecondComponent>
+
+    <MainContainer>
+      <MainText> styledcomponet를 모은 jsx를 활용해 CSS in JS를 편히 사용해보자!</MainText>
+    </MainContainer>
   </div>
   );
 }
