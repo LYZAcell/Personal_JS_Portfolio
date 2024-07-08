@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css";
-import React, {Component, useState} from "react"; // 클래스형 컴포넌트 호출 시
+import React, {Component, useState, useEffect} from "react"; // 클래스형 컴포넌트 호출 시
 import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
 import styled, {css} from 'styled-components';
 import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
@@ -50,6 +50,66 @@ function MountComponent({children}){
 }
 
 
+
+// 프로미스만들어주기
+const promise = new Promise((resolve, reject) => {
+  // 오래 걸리는 일 수행중 (통신, 파일 읽기)
+  console.log('doing something...');
+  setTimeout(() => {
+    resolve('data');
+    //reject(new Error('no network'));
+    }, 2000);
+  });
+
+  promise
+  .then(value => {
+      console.log(value);
+  })
+  .catch(error => {
+      console.log(error);
+  })
+  .finally(() => {
+      console.log('finally'); // 출력
+  });
+
+
+//Promise async
+async function getUserName() {
+  // 백엔드에서 유저 이름 받아오기 .. (약 10초 소요된다고 가정)
+  return 'Gayeong';
+}
+
+const user = getUserName();
+user.then(console.log);
+
+
+//Promise async
+async function getUserName() {
+  // 백엔드에서 유저 이름 받아오기 .. (약 10초 소요된다고 가정)
+  return 'Gayeong';
+}
+
+const user = getUserName();
+user.then(console.log);
+
+
+// async 기다리는 동안 동작하는 await
+function fetchData(){
+  return new Promise ((resolve, reject) => {
+    setTimeout(() => {
+      resolve('데이터가 도착했어요!');
+    }, 2000);
+  });
+}
+// await
+async function getData(){
+  console.log('데이터 가져오는 중!');
+  const result = await fetchData();
+  console.log(result);//비동기 완료 후 실행
+}
+// 실행은 async와 await을 선언해둔 getdata로
+getData();
+
 // styled component _ 변수명 무조건 대문자로 정의
 // styled.tagName 형식으로 원하는 태그 뒤에 백팁안에 css작성
 // 컴포넌트 형식. prop 주기 가능
@@ -92,6 +152,20 @@ const SecondComponent = styled.div`
 
 // practice , app.js처럼 여러 컴포넌트를 모으는 파일을 루트 컴포넌트 파일이라고 함. -> App.js가 디폴트라 필수임
 function practice() {
+
+
+  
+  //포켓몬에서 피카츄가져오기
+  const[pikachu, setPikachu] = useState(null);
+
+  const getData = async() => {
+    const response = await fetch ("https://pokeapi.co/api/v2/pokemon/pikachu/");
+    const jsonData = await response.json();
+    setPikachu(jsonData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
     // JS 단일행 주석
     /* Js 여러행 주석*/
     const name = "나는 냥냥멋사"
@@ -150,6 +224,30 @@ function practice() {
     {/*async setter함수 사용해보기*/}
     <button onClick = {handleClick}>1씩 올라가는 버튼</button>
     <div>버튼을 {count}번 눌렀어용!</div>
+
+    {/*6-2 비동기 처리 필기 시작*/}
+        {/*비동기처리 예시: 응답성을 높일 수 있지만 코드가 실제로 실행될 때 순서가 바뀜*/}
+    {/*console.log('1');
+    setTimeout(function(){
+      console.log('2')
+    }, 1000)
+    console.log('3');*/} 
+    {/* 1 3 --> 2 순서로 받아옴 : 편하면서도 지연 응답리스크가 있음*/}
+    
+    {/*콜백함수 : 콜백함수는 다른 함수의 파라미터로(매개변수) 들어가는 함수
+    동기적 사용도 가능하다.*/}
+    setTimeout(function(){
+      console.log('2')
+    }, 1000);
+
+    setTimeout(()=>console.log('2'),1000);
+
+    <>
+    <h1> Pikachu! PIkaPika!</h1>
+    <img src ={pikachu.sprites.front_default}/>
+    </>
+
+
      </div>
         {/*굳이 div가 아니더라도 fragment라는 이름없는 태그 활용도 가능*/}
         <> {/*fragment태그*/}

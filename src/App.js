@@ -2,7 +2,7 @@ import './App.css';
 import FirstComponent from './studying/FirstComponent'; // App.js로 사이트 만들시 해당 라인 지우기
 import styled, {css} from 'styled-components';
 import {MainContainer, MainText} from "./studying/practice_styles"; // styledcomponent모아둔 JSX
-import React, {useState} from "react";
+import React, {useEffect,useState} from "react";
 
 
 // 컴포넌트 만들기
@@ -23,6 +23,55 @@ function MountComponent({children}){
     </div>
   );
 }
+
+// 프로미스만들어주기
+const promise = new Promise((resolve, reject) => {
+  // 오래 걸리는 일 수행중 (통신, 파일 읽기)
+  console.log('doing something...');
+  setTimeout(() => {
+    resolve('data');
+    //reject(new Error('no network'));
+    }, 2000);
+  });
+
+  promise
+  .then(value => {
+      console.log(value);
+  })
+  .catch(error => {
+      console.log(error);
+  })
+  .finally(() => {
+      console.log('finally'); // 출력
+  });
+
+
+//Promise async
+async function getUserName() {
+  // 백엔드에서 유저 이름 받아오기 .. (약 10초 소요된다고 가정)
+  return 'Gayeong';
+}
+
+const user = getUserName();
+user.then(console.log);
+
+
+// async 기다리는 동안 동작하는 await
+function fetchData(){
+  return new Promise ((resolve, reject) => {
+    setTimeout(() => {
+      resolve('데이터가 도착했어요!');
+    }, 2000);
+  });
+}
+// await
+async function getData(){
+  console.log('데이터 가져오는 중!');
+  const result = await fetchData();
+  console.log(result);//비동기 완료 후 실행
+}
+// 실행은 async와 await을 선언해둔 getdata로
+getData();
 
 // styled component _ 변수명 무조건 대문자로 정의
 // styled.tagName 형식으로 원하는 태그 뒤에 백팁안에 css작성
@@ -57,6 +106,19 @@ const SecondComponent = styled.div`
   `;
 
 function App() {
+
+  //포켓몬에서 피카츄가져오기
+  const[pikachu, setPikachu] = useState(null);
+
+  const getData = async() => {
+    const response = await fetch ("https://pokeapi.co/api/v2/pokemon/pikachu/");
+    const jsonData = await response.json();
+    setPikachu(jsonData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   // JS 단일행 주석
   /* Js 여러행 주석*/
 	const name = "나는 냥냥멋사"
@@ -74,6 +136,7 @@ function App() {
     console.log(count);
   } 
 
+  
   return (
   <div>
     {/*JSX코드 안에서 JS표현식을 {}안에 포함시켜 주석다는 방식*/}
@@ -114,6 +177,36 @@ function App() {
     <button onClick = {handleClick}>1씩 올라가는 버튼</button>
     <div>버튼을 {count}번 눌렀어용!</div>
 
+    
+
+    {/*비동기처리 예시: 응답성을 높일 수 있지만 코드가 실제로 실행될 때 순서가 바뀜*/}
+    {/*console.log('1');
+    setTimeout(function(){
+      console.log('2')
+    }, 1000)
+    console.log('3');*/} 
+    {/* 1 3 --> 2 순서로 받아옴 : 편하면서도 지연 응답리스크가 있음*/}
+    
+    {/*콜백함수 : 콜백함수는 다른 함수의 파라미터로(매개변수) 들어가는 함수
+    동기적 사용도 가능하다.*/}
+    {setTimeout(function(){
+      console.log('2')
+    }, 1000)};
+
+    {setTimeout(()=>console.log('2'),1000)};
+
+
+    {/*프로미스* -> 상단기재*/}
+
+    {/*promise와 비동기처리: 만약 서버 정보를 가져오는데에 10초이상걸린다면? 동기처리는 곤란함*/}
+    {/*promise로 만들어보기*/}
+
+    <>
+    <h1> Pikachu! PIkaPika!</h1>
+    <img src ={pikachu.sprites.front_default}/>
+    </>
+    
+    
   </div>
   );
 }
