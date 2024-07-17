@@ -203,8 +203,10 @@ function App() {
 
     <>
     <h1> Pikachu! PIkaPika!</h1>
-    <img src ={pikachu.sprites.front_default}/>
+    {/*<img src ={pikachu.sprites.front_default}/>*/}
     </>
+    {/* 중앙 해커톤 관련 router 설정 연습 예정*/}
+    <p> 중앙 해커톤 파이팅! 해당 폴더는 리액트입니당. vite라고 생각하고 main을 연습해주세요</p>
     
     
   </div>
